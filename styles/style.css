@@ -1,0 +1,652 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul{
+    list-style: none;
+}
+
+a, ul li{
+    text-decoration: none;
+    color: black;
+    font-size: 23px;
+}
+
+
+/******* HEADER*******/
+
+header{
+    background: url('../bg.jpg') ;
+    background-size: cover;
+}
+.head-logo{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.head{
+    width: 1100px;
+    height: 85px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    line-height: 85px;
+    /* align-items: center; */
+}
+
+
+.menu-items{
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.menu-items li > ul{
+    width: 190px;
+    line-height: 50px;
+    margin-top: 5px;
+    background-color: #fb9200;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    text-align: left;
+    visibility: hidden;
+}
+
+.menu-items > li{
+    width: 110px;
+    text-align: center;
+    position: relative;
+}
+
+.menu-items  li a{
+    display: block;
+}
+
+.menu-items li:hover > a{
+    background-color: #fb9200;
+    color: white;
+    border-radius: 3px;
+    transition: 0.6s;
+}
+
+.menu-items > li:hover ul{
+    visibility: visible;
+}
+
+.item-count{
+    display: block;
+    position: absolute;
+    top: 23px;
+    right: 22px;
+    width: 17px;
+    height: 17px;
+    text-align: center;
+    background-color: white;
+    padding-top: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 8px;
+    overflow: hidden;
+    border-radius: 50%;
+    line-height: 0;
+    z-index: 0;
+}
+
+
+.user{
+    display: none;
+}
+
+.header-barner{
+    width: 1100px;
+    height: 405px;
+    margin: auto;
+}
+
+.barner-contener{
+    width: 500px;
+    margin-left: 120px;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.barner-contener h1{
+    letter-spacing: 1px;
+}
+.barner-contener p{
+    margin-top: 40px;
+    letter-spacing: 1px;
+    color: #030302;
+    font-size: 22px;
+}
+
+.order-view{
+    background-color: #fb9200;
+    padding: 8px 10px 8px 10px;
+    margin-top: 40px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.order-view a{
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.active{
+    background-color: #fb9200;
+    color: white;
+    border-radius: 3px;
+    transition: 0.6s;
+}
+.foods-contener{
+    background-color: rgb(241, 238, 238);
+}
+
+.foods-box{
+    width: 1100px;
+    margin: auto;
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.food{
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.616);
+    text-align: center;
+    border-radius: 0px 40px 0 0px;
+    margin-bottom: 20px;
+    margin-right: 32px;
+    cursor: default;
+    user-select: none;
+}
+.foods-box .food:nth-child(4n){
+    margin-right: 0;
+}
+
+.food-image, .food-image img{
+    width: 250px;
+    border-radius: 0px 40px 0 40px;
+}
+
+.food-name, h2{
+    font-weight: normal;
+    margin: 10px 0;
+}
+
+.food-description{
+    font-size: 19px;
+    font-family: 'time news roman';
+    margin-bottom: 15px;
+}
+
+.food-price{
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: rgb(236, 152, 26);
+}
+
+.food-level-star{
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+}
+
+.food-info h2{
+    background-color: rgb(236, 152, 26);
+}
+.food-level-star button{
+    width: 70px;
+    height: 30px;
+    position: relative; 
+    right: -16px; 
+    background-color: rgb(236, 152, 26);
+    border-radius: 20px 0 0 0;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.food-level-star button:hover{
+    background-color: rgb(177, 114, 21);
+    color: white;
+    transition: 0.5s;
+}
+
+.food-level-star button:checked{
+    border-radius: 20px 0 0 0;
+}
+
+/* cart styling */
+
+.my-cart{
+    position: absolute;
+    right: 200px;
+    top: 90px;
+    width: 750px;
+    height: 400px;
+    display: none;
+    background-color: rgb(255, 255, 255);
+    border: 1.8px solid rgb(236, 152, 26);
+    border-radius: 30px;
+    box-shadow: 4px 6px 4px  rgb(177, 170, 159);
+    margin-bottom: 15px;
+    z-index: 100;
+}
+
+.my-cart h1{
+    text-align: center;
+    padding-top: 10px;
+    text-shadow: 0px 1px 2px #000 ;
+}
+
+.cart-items{
+    width: 700px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.thead{
+    display: flex;
+    background-color: rgb(236, 152, 26);
+    border-radius: 3px;
+}
+
+.thead .th{
+    width: 112px;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px 0;
+}
+.thead .th:nth-child(1){
+    width: 340px;
+    text-align: left;
+}
+
+
+tbody td{
+    width: 112px;
+    text-align: center;
+    padding: 15px 0;
+}
+.tfoot{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(236, 152, 26);
+    margin-top: 20px;
+    font-size: 25px;
+    border-radius: 3px;
+    padding: 2px 0;
+}
+
+.table{
+    height: 240px;
+    overflow-y: scroll;
+}
+
+
+.order-item{
+    display: flex;
+}
+
+.order-food-image, .order-food-image img{
+    width:150px !important;
+    border-radius: 10px;
+    margin-right: 30px;
+}
+
+.order-food-info{
+    width: 160px;
+    text-align: left;
+}
+
+.order-food-name{
+    font-weight: normal;
+    padding-top: 0 !important;
+}
+
+.order-food-description{
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#quality{
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.61);
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 10px;
+    padding-left: 8px;
+}
+
+.order-food-price{
+    font-style: italic;
+    font-size: 23px;
+}
+
+#remove-order{
+    width: 50px;
+    height: 40px;
+    font-size: 19px;
+    background-color:rgb(236, 152, 26);
+    border-radius: 4px;
+    border: none;
+    user-select: none;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.payement{
+    background-color: white;
+    border: 0;
+    padding: 5px 8px;
+    font-size: 18px;
+    color: rgb(236, 152, 26);
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 1px 1px 2px black;
+    border: 1px solid black;
+}
+
+#remove-order:hover{
+    background-color: rgb(197, 120, 18);
+    color: rgb(0, 0, 0);
+    transition: 0.5s;
+}
+
+.payement:hover{
+    background-color: rgba(212, 184, 23, 0.664);
+    color: rgb(0, 0, 0);
+    transition: 0.5s;
+}
+ 
+.payement-box{
+    width: 600px;
+    height: 300px;
+    position: absolute;
+    top: 90px;
+    right: 200px;
+    display: none;
+    background-color: rgb(255, 255, 255);
+    border: 1.8px solid rgb(236, 152, 26);
+    border-radius: 30px;
+    box-shadow: 4px 6px 4px  rgb(177, 170, 159);
+    margin-bottom: 15px;
+    z-index: 110;
+}
+
+.payement-box h1{
+    text-align: center;
+    text-shadow: 0px 1px 2px #000;
+}
+
+.payement-box h2{
+    font-size: 17px;
+}
+.payement-block{  
+    display: flex;
+    justify-content: space-around; 
+    margin-top: 20px;
+}
+
+.mobile{
+    width: 250px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.bank{
+    border: 1px solid rgb(51, 49, 49);
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px black;
+}
+
+.bank, .bank img{
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+
+.bank {
+    position: relative;
+}
+
+.bank::before{
+    content: '';
+    position:absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.8s;
+}
+
+.bank:hover::before{
+    background-color: rgba(177, 171, 171, 0.39);
+}
+
+
+ .payement input,.login-box input{
+    margin: 8px 0;
+    padding: 2px 5px;
+    box-shadow: 1px 1px 2px black;
+    border-radius: 3px;
+    font-size: 17px;
+}
+
+.valider, .btn_confirm{
+    background-color: rgb(236, 152, 26);
+    border: 0;
+    padding: 5px 8px;
+    font-size: 18px;
+    color: rgb(12, 9, 3);
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 1px 1px 2px black;
+    border: 1px solid black;
+    margin-left: 4px;
+    padding: 4px 6px;
+}
+
+.my-orders{
+    width: 1100px;
+    height: 500px;
+    position: absolute;
+    top: 90px;
+    right: 80px;
+    display: none;
+    background-color: rgb(255, 255, 255);
+    border: 1.8px solid rgb(236, 152, 26);
+    border-radius: 10px;
+    box-shadow: 4px 6px 4px  rgb(177, 170, 159);
+    margin-bottom: 15px;
+    z-index: 100;
+}
+
+.orders-box{
+    height: 350px;
+    overflow-y: scroll;
+}
+.orders-contener{
+    width: 1000px;
+    margin: auto;
+    padding: 15px 0;
+}
+
+.orders-contener h1{
+    text-shadow: 0px 1px 2px #000;
+    font-size: 32px;
+}
+.orders-contener >h1{
+    text-align: center;
+    margin-bottom: 20px;
+    
+}
+
+.orders-contener ul{
+    display: flex;
+    margin-bottom: 10px;
+    background-color: rgb(236, 152, 26);
+    border-radius: 3px;
+}
+
+.orders-header ul li{
+    width: 180px;
+    text-align: center;
+}
+
+.orders-header ul li:nth-child(2){
+    width: 390px;
+}
+
+.order{
+    display: flex;
+    padding: 10px 0;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.452);
+}
+
+.order:last-child{
+    border-bottom: none;
+}
+
+.order .info-contener{
+    width: 180px;
+    text-align: center;
+    font-size: 19px;
+}
+
+.order .info-contener:nth-child(1){
+    text-align: left;
+    font-size: 20px;
+    background-color: rgba(226, 217, 217, 0.658);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.order .info-contener:nth-child(1) p{
+    margin-bottom: 15px;
+}
+
+.order .info-contener:nth-child(2){
+    width: 390px;
+    padding-left: 4px;
+}
+
+
+.quantite{
+   width: 40px;
+   text-align: right;
+   font-size: 23px;
+   padding-top: 30px;
+}
+
+.overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.226);
+    display: none;
+}
+
+.my-login{
+    width: 650px;
+    height: 335px;
+    overflow: hidden;
+    position: absolute;
+    top: 95px;
+    right: 300px;
+    display: none;
+    background-color: rgb(255, 255, 255);
+    border: 1.8px solid rgb(236, 152, 26);
+    border-radius: 10px;
+    box-shadow: 4px 6px 4px  rgb(177, 170, 159);
+    margin-bottom: 15px;
+    z-index: 100;
+}
+
+.login-conterner{
+    display: flex;
+}
+
+.login-img, .login-img img{
+    width: 300px;
+    height: 335px;
+}
+
+.login-box{
+    width: 240px;
+    margin: auto; 
+}
+
+.connection{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.login-box h1{
+    width: 120px;
+    text-align: center;
+    font-weight: normal;
+    text-shadow: 0px 1px 2px #000;
+    font-size: 25px;
+    background-color: rgba(122, 113, 113, 0.144);
+    padding: 4px 0;
+}
+
+.login-box h1:first-child{
+    border-right: solid 2px rgba(0, 0, 0, 0.089);
+}
+
+.login-box h1:hover{
+    background-color: rgb(236, 152, 26);
+    cursor: pointer;
+}
+
+.actived{
+    background-color: rgb(236, 152, 26) !important;
+}
+
+.login-box input{
+    margin: 13px 0;
+}
+
+.login-box label{
+    font-size: 19px;
+}
+
+.login-box .valider{
+    width: 230px;
+}
+
+.login-box p{
+    margin-top: 10px
+}
+
+.login-box p span a{
+    color: red;
+    text-decoration: underline;
+    font-size: 16px;
+}
+
+
+.visibled{
+    display: block;
+}
+
+.hidden{
+    display: none;
+} 
+
