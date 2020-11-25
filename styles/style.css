@@ -179,6 +179,7 @@ header{
 }
 
 .food-description{
+    height: 44px;
     font-size: 19px;
     font-family: 'time news roman';
     margin-bottom: 15px;

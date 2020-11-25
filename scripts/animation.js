@@ -14,7 +14,6 @@ links.forEach(item =>{
 });
 function showBox(id){
     const box = document.querySelector(`#my-${id}`);
-    console.log(`my-${id}`)
     if(box){
         box.classList.add('visibled');
     }
