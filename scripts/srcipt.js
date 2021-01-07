@@ -1,13 +1,18 @@
 // import modules
-import {actions} from './animation.js';
+import {actions, tooglePayement} from './animation.js';
 import {foods} from './food.js';
-
-window.addEventListener('load',function (){
-    insertsFoods(foods)
+import {check,payementMode, reset} from './payement.js';
+import {login, singUp, logOut, displayAll} from './login.js';
+import {getParent} from './utilities.js'
+window.addEventListener('DOMContentLoaded',function (){
+    insertsFoods(foods);
+    getFromLocalStorage();
+    currenTUserConnected !== null ? displayAll(currenTUserConnected.name) : ''; 
+    // initOrder() 
     actions();
+    addToOrders()
 },false);
 
-const foodBox = document.querySelector('.foods-box');
 function insertsFoods(foodArray){
     let foods = foodArray.map(item =>{
         return`<div id="${item.id}" class="food">
@@ -26,22 +31,28 @@ function insertsFoods(foodArray){
                     </div>
                 </div>`
     });
+    const foodBox = document.querySelector('.foods-box');
     foods = foods.join('');
     foodBox.innerHTML = foods;
     addToCart();
 }
-
+let currenTUserConnected = null;
 function addToCart(){
-    const addButton = document.querySelectorAll('#add-food');
-    addButton.forEach(item =>{
-        item.addEventListener('click',function (e){
-            const parent = getParent(e.currentTarget);
-            add(parent.id);
-        },false);
-    })
+        const addButton = document.querySelectorAll('#add-food');
+        addButton.forEach(item =>{
+            item.addEventListener('click',function (e){
+                if (currenTUserConnected != null){
+                    const parent = getParent(e.currentTarget);
+                    add(parent.id);
+                } else{
+                    alert('vieillez vous connecter')
+                }
+            },false);
+        })
 }
 
-let selectedFood = [];
+let selectedFood = []
+
 const itemCount = document.querySelector('.item-count')
 function add(id){
     const findSelection= selectedFood.filter(item => {
@@ -60,6 +71,7 @@ function add(id){
                 const selection = new Createselected(item.id, item.image, item.name, item.note, item.price);
                 insertSelection(selection); 
                 selectedFood.push(selection);
+                // localStorage.setItem('selectedFood', JSON.stringify(selectedFood));
                 return false;
             }
         }); 
@@ -79,6 +91,7 @@ function Createselected (...array){
         this.updateQuantiter= function(nombre) {
             this.quantiter = nombre;
     }
+    this.clientID = currenTUserConnected.name
 }
 const myCartTBody = document.querySelector('.t-body');
 function insertSelection(element){
@@ -101,7 +114,7 @@ function insertSelection(element){
                                 <p class="order-food-price">${element.price}</p>
                             </td>
                             <td>
-                                <button type="button" id="remove-order">X</button>
+                                <button type="button" id="remove-order" class="btn-mf">X</button>
                             </td>
                       </tr>`
     myCartTBody.innerHTML += selected;
@@ -147,23 +160,174 @@ function removeSelection(id){
     });
     total()
 }
-
+const orderTotal = document.querySelector('.order-total');
+let totalPrice = 0;
 function total(){
-    let total = 0;
+    totalPrice = 0;
     selectedFood.forEach(item =>{
-       const prixTotal = item.price * item.quantiter;
-       total +=prixTotal
+       const findTotal = item.price * item.quantiter;
+       totalPrice += findTotal; 
     });
-    const orderTotal = document.querySelector('.order-total');
-            orderTotal.innerHTML = total;
+    orderTotal.innerHTML = totalPrice;
 }
 
-function getParent(child){
-    while(child = child.parentNode){
-        if(child.className === 'food' ||child.classList.contains('selection')){
-            return child;
-            break;
+function NewOrder(ordersInfo, orderItems, total){
+    this.userID = currenTUserConnected['id'];
+    this.commandeID = `00${JSON.parse(localStorage.getItem('users'))
+    [currenTUserConnected.place].userOrders.length +1}`;
+    this.ordersInfo = ordersInfo;
+    this.orderItems = orderItems;
+    this.total = total;
+    this.status = 'Confirmation ...';
+    this.message = 'Les repas sont delicieux';
+    this.statusChange = function (status){
+        this.status = status;
+    };
+    this.sendMessage = function(message){
+        this.message = message;
+    }
+}
+function addToLocalStorage(currenTUserConnected = null){
+    localStorage.setItem('currenTUserConnected', JSON.stringify(currenTUserConnected));
+}
+
+function getFromLocalStorage(){
+    const reference = localStorage.getItem('currenTUserConnected');
+    const reference1 = localStorage.getItem('selectedFood');
+    reference ? currenTUserConnected = JSON.parse(reference) :''; 
+    // reference1 ? selectedFood = JSON.parse(reference1) :''; 
+}
+
+function setOrder(info){
+    const alert = document.querySelector('.payement-alert');
+    if(typeof info == 'object'){
+        alert.innerHTML = '';
+        const orders = selectedFood.map(item =>{
+            return{
+                id : item.id,
+                image : item.image,
+                name : item.name,
+                note : item.note,
+                quantity: item.quantiter
+            }
+        });
+        const users = JSON.parse(localStorage.getItem('users'));
+        const newOrder = new NewOrder(info, orders, totalPrice);
+        users[currenTUserConnected.place].userOrders.push(newOrder);
+        localStorage.setItem('users', JSON.stringify(users));
+        const visibled = document.querySelectorAll('.visibled');
+        for (const element of visibled) {
+            !element.classList.contains('user') && !element.classList.contains('dashbord') ? 
+            element.classList.remove('visibled') : '';
         }
+        reset(myCartTBody, itemCount, orderTotal);
+    } else{
+        alert.innerHTML = info;
+    };
+}
+
+function addToOrders(){
+    const users = JSON.parse(localStorage.getItem('users'));
+    const currentUser = JSON.parse(localStorage.getItem('currenTUserConnected'));
+    if(currentUser){
+        const findUserOrder = users[currentUser['place']]['userOrders'];
+         let newcommande = findUserOrder.map(item =>{
+             const name = item.ordersInfo.name, 
+                   number = item.ordersInfo.number, 
+                   address = item.ordersInfo.address, 
+                   payement = item.ordersInfo.payement;
+            return `<div id="order-1" class="order-1 order">
+                            <div class="order-1-info info-contener">
+                                <p class="user-name">${name}</p>
+                                <p class="user-phone">${number}</p>
+                                <p class="user-address">${address}</p>
+                                <p>payement : <span class="user-bank">${payement}</span></p>
+                            </div>
+                            <div class="order-1-foods info-contener">
+                                ${
+                                    item.orderItems.map(item =>{
+                                        return `<div class="order-1-food-1 order-item">
+                                                        <div class="order-food-image">
+                                                        <img src="${item.image}" alt="">
+                                                        </div>
+                                                        <div class="order-food-info">
+                                                            <h1 class="order-food-name">${item.name}</h1>
+                                                            <p class="order-food-description">${item.note}</p>
+                                                        </div>
+                                                        <div class="quantite">
+                                                            ${item.quantity}
+                                                        </div>
+                                                </div>`
+                                    }).join('')
+                                }
+                            </div>
+                            <div class="order-1-total info-contener">
+                                <p><span class="tolal">${item.total}</span> Fcfa</p>
+                            </div>
+                            <div class="order-1-status info-contener">
+                                <button id="order-status" class="btn_confirm">${item.status}</button>
+                            </div>
+                        </div>`
+        });
+        newcommande = newcommande.reverse().join('');
+        const orderBox = document.querySelector('.orders-box');
+        orderBox.innerHTML = newcommande;
     }
 }
 
+function initOrder(){
+    let verif = false;
+    selectedFood.forEach(item =>{
+        if(currenTUserConnected !=null && item.clientID == currenTUserConnected.name){
+            verif = true;
+            insertSelection(item);
+            item.updateQuantiter= function(nombre) {
+                this.quantiter = nombre;
+            };  
+        }      
+    });
+    if(verif == true){
+        itemCount.innerHTML = selectedFood.length;
+        total()
+    }
+}
+// Gestion des payement
+const payementButton = document.querySelector('.payement');
+    payementButton.addEventListener('click',function(){
+        const total = document.querySelector('.total-price');
+        total.innerHTML = totalPrice;
+        tooglePayement();
+    },false);
+const setOrderButton = document.querySelector('#commander');
+setOrderButton.addEventListener('click',function(e){
+    e.preventDefault()
+    const info = check(payementMode);
+    setOrder(info);
+    selectedFood = [];
+    localStorage.setItem('selectedFood', JSON.stringify(selectedFood));
+    addToOrders();
+},false);
+
+// Gestion de la connection
+// let currenTUserConnected = null;
+const connect = document.querySelector('#connecter');
+connect.addEventListener('click',function(e){
+    e.preventDefault()
+    currenTUserConnected = login();
+    addToLocalStorage(currenTUserConnected)
+    addToOrders();
+},false);
+
+const inscire = document.querySelector('#inscrire');
+inscire.addEventListener('click',function(e){
+    e.preventDefault()
+    currenTUserConnected = singUp();
+    addToLocalStorage(currenTUserConnected)
+},false);
+
+const disconnect = document.querySelector('#logout');
+disconnect.addEventListener('click',function(){
+    currenTUserConnected = logOut();
+    addToLocalStorage(currenTUserConnected)
+    reset(myCartTBody, itemCount, orderTotal);
+},false)

@@ -44,4 +44,11 @@ foods.forEach(item=>{
     item.id = `${count}-food`
     count ++
 });
+
+{
+    const verifstore = localStorage.getItem('foods');
+    if(verifstore === null){
+    localStorage.setItem('foods', JSON.stringify(foods));
+}
+}
 export {foods};

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Dashbord</title>
+</head>
+<body>
+    <div class="admin contener">
+        <div class="mbar">
+            <div class="mbar-head">
+                <h2>Foody.com</h2>
+            </div>
+            <div class="mbar-add">
+                    <button id="newfood"class="btn btn-add">Add Food</button>  
+            </div>
+            <div class="mbar-nav">
+                <nav>
+                    <ul>
+                        <li><a href="#dashboard">Dashboarb</a></li>
+                        <li><a href="#foodman">Food manage</a></li>
+                        <li><a href="#Orderman">Order manage</a></li>
+                        <li><a href="#accountman">Account manage</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="maria">
+            <div id="dashboard"class="dasboard-box manage">
+                <h1>Dashboarb</h1>
+                <div class="dashead">
+                    <div class="itemcount">
+                        <h2>Food</h2>
+                        <p class="foodscount">0</p>
+                    </div>
+                    <div class="itemcount">
+                        <h2>Customer</h2>
+                        <p class="customercount ">0</p>
+                    </div>
+                    <div class="itemcount"">
+                        <h2>Order</h2>
+                        <p class="ordercount">0</p>
+                    </div>
+                    <div class="itemcount"">
+                        <h2>Comment</h2>
+                        <p class="commentcount">0</p>
+                    </div>
+                </div>
+                <div class="dasmain">
+                    <div class="allorders box">
+                        <h1>Orders</h1>
+                        <div class="all-orders"></div>
+                    </div>
+                    <div class=" allcomment box">
+                        <h1>Commments</h1>
+                        <div class="all-comments">
+                        </div>
+                    </div>
+                    <div class="allfoods box">
+                        <h1>Foods</h1>
+                        <div class="all-foods flex">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="foodman"class="foodman manage">
+                <h1>Food manage</h1>
+                <div class="foodmanhead  header box hidden">
+                    <div id="insert" class="insertfood  form visibled">
+                        <div class="inputs">
+                            <p>
+                                <label for="foodname">Food name :</label><br>
+                                <input type="text" name="foodname" id="foodname">
+                            </p>
+                            <p>
+                                <label for="foodnote">Food note :</label><br>
+                                <input type="text" name="foodnote" id="foodnote">
+                            </p>
+                            <p>
+                                <label for="foodprice">Price :</label><br>
+                                <input type="text" name="foodprice" id="foodprice">
+                            </p>
+                            <p class="file">
+                                <span>Choose file</span>
+                                <input type="file" name="foodimage" id="foodimage" value="chose file">
+                            </p>
+                        </div>
+                        <button id="addnewfood" class="btn-form add">add</button><button class="btn-close btn-form">Close</button>
+                    </div>
+                    <div id="update" class="updatefood form hidden">
+                        <div class="inputs">
+                            <p>
+                                <label for="m-food-name">Food name</label><br>
+                                <input type="text" name="m-food-name" id="m-food-name">
+                            </p>
+                            <p>
+                                <label for="m-food-note">Food note</label><br>
+                                <input type="text" name="m-food-note" id="m-food-note">
+                            </p>
+                            <p>
+                                <label for="m-food-price">Price</label><br>
+                                <input type="text" name="m-food-price" id="m-food-price">
+                            </p>
+                            <p class="file">
+                                <span>Choose file</span>
+                                <input type="file" name="m-food-image" id="m-food-image" value="choose file">
+                            </p>
+                        </div>
+                        <button id="updatefood" class="btn-form">update</button><button class="btn-close btn-form">Close</button>
+                    </div>
+
+                </div>
+                <div class="foodmanmain">
+                    <div class="listfoods">
+                        <div class="thead">
+                            <div class="th">
+                                Food
+                            </div>
+                            <div class="th">
+                                Price
+                            </div>
+                            <div class="th">
+                                Button
+                            </div>
+                        </div>
+                        <div class="table">
+                            <table>
+                                <tbody class="t-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="Orderman"class="Orderman manage">
+                <h1>Orders manage</h1>
+                <div class="manage-order orders-contener">
+                    <div class="orders-header">
+                        <ul>
+                            <li>User info</li>
+                            <li>Food names</li>
+                            <li>Total</li>
+                            <li>Status</li>
+                        </ul>
+                    </div>
+                    <div class="list-orders-contener">
+                        
+                    </div>
+                </div>
+            </div>
+            <div id="accountman"class="accountman manage">
+                <h1>Account manager</h1>
+                <button id="create-account" class="btn-form">Add account</button>
+                <div class="header box account-man-head hidden">
+                    <div id="create-account" class="insert-account new-account visibled">
+                        <div class="inputs">
+                            <p>
+                                <label for="username">User name</label><br>
+                                <input type="text" name="username" id="username">
+                            </p>
+                            <p>
+                                <label for="user-password">Password</label><br>
+                                <input type="text" name="user-password" id="user-password">
+                            </p>
+                            <p>
+                                <label for="repassword">Repassword</label><br>
+                                <input type="text" name="repassword" id="repassword">
+                            </p>
+                        </div>
+                        <button id="add-account" class="btn-form">Add</button><button class="btn-close btn-form close">Close</button>
+                    </div>
+                    <div id="update-account" class="update-account hidden">
+                        <div class="inputs">
+                            <p>
+                                <label for="update-username">User name</label><br>
+                                <input type="text" name="update-username" id="update-username">
+                            </p>
+                            <p>
+                                <label for="update-password">Password</label><br>
+                                <input type="password" name="update-password" id="update-password">
+                            </p>
+                            <p>
+                                <label for="update-repassword">Repassword</label><br>
+                                <input type="password" name="update-repassword" id="update-repassword">
+                            </p>
+                        </div>
+                        <button id="update-account" class="btn-form">udapte</button>
+                        <button class="btn-form btn-close close">Close</button>
+                    </div>
+                </div>
+                <div id='account-main' >
+                    <div class="user-box account">
+                        <div class="user-info">
+                            <div class='user-name'>Huber komla</div>
+                            <div class= 'manage-button'>
+                                <button id='update-user' class="btn-mf">modif</button>
+                                <button id='new-user' class="btn-mf">X</button>
+                            </div>
+                        </div>
+                        <div class="user-info">
+                            <div class='user-name'>Amedevi emanuel</div>
+                            <div class= 'manage-button'>
+                                <button id='update-user' class="btn-mf">modif</button>
+                                <button id='new-user' class="btn-mf">X</button>
+                            </div>
+                        </div>
+                        <div class="user-info">
+                            <div class='user-name'>Dadze kossi</div>
+                            <div class= 'manage-button'>
+                                <button id='update-user' class="btn-mf">modif</button>
+                                <button id='new-user' class="btn-mf">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="scripts/admin.js" type="module"></script>
+</body>
+</html>

@@ -13,13 +13,14 @@
                 <div id="home" class="head-logo">FOODY</div>
                 <nav>
                     <ul class="menu-items">
-                        <li><a href="#home" class="active home">Home</a></li>
+                        <li><a href="#home" class="active home link">Home</a></li>
                         <li><a href="#cart" id="cart" class="link">Cart</a><span class="item-count">0</span></li>
-                        <li><a href="#contact" id="contact">Contact</a></li>
-                        <li><a href="#login" id="login" class="link">Login</a></li>
-                        <li class="user"><a href="#">User</a> 
+                        <li><a href="#contact" id="contact" class="link">Contact</a></li>
+                        <li class = "logform"><a href="#login" id="login" class="link">Login</a></li>
+                        <li class="user"><a href="#" class="current-user">User</a> 
                             <ul class="user-options">
                                 <li><span class="user-great">hello!</span></li>
+                                <li class="dashbord"><a href="dashbord.html" class = "dashbord">Dashbord</a></li>
                                 <li><a href="#" id="orders" class="link">My order</a></li>
                                 <li><a href="#" id="change-password" class="link">Change password</a></li>
                                 <li><a href="#"id="logout">Logout</a></li>
@@ -45,7 +46,8 @@
         </header>
         <div class="foods-contener">
             <div class="foods-box">
- -->
+                    cette site utilise des modules javascript 
+                    veillez l'ouvrire avec un serveur local
             </div>
         </div>
         <div id="my-cart" class="my-cart toggle">
@@ -68,37 +70,14 @@
                     <div class="table">
                         <table>
                             <tbody class="t-body">
-                                <!-- <tr>
-                                    <td>
-                                        <div id="1-food" class="order-item">
-                                            <div class="order-food-image">
-                                                <img src="images/foody-upload-api-foody-mobile-10-200317093749.jpg" alt="">
-                                            </div>
-                                            <div class="order-food-info">
-                                                <h1 class="order-food-name">hamburger</h1>
-                                                <p class="order-food-description">repellat praesentium dolore repudiandae, non</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input type="number" name="Quantity" id="quality" min="1" max="4" step="1" value="1">
-                                    </td>
-                                    <td>
-                                        <p class="order-food-price">455 Fcfa</p>
-                                    </td>
-                                    <td>
-                                        <button type="button" id="remove-order">X</button>
-                                    </td>
-                                </tr> -->
                             </tbody>
-    
-                    </table>
+                        </table>
                     </div>
                     <div class="tfoot">  
                         <div>Total :</div>
                         <div colspan="3"><span class="order-total">0</span> Fcfa</span></div>
                         <button id="payement" class="payement my-payement">Payement</button>    
-                </div>
+                    </div>
                 </div>
     
         </div>
@@ -107,6 +86,7 @@
                 <div class="payement-block">
                     <div class="mobile-money">
                         <h2>Choisire le mode de payement :</h2>
+                        <p class="payement-alert">hhh</p>
                         <div class="mobile">
                             <div id="flooz" class="bank">
                                 <a href="">
@@ -119,6 +99,7 @@
                                 </a>
                             </div>
                         </div>
+                        <p class="total">TOTAL A PAYER : &nbsp&nbsp<span class="total-price">&nbsp 55559</span></p>
                 </div>
                     <div class="payement-info">
                         <form action="" id="confirm-order">
@@ -145,86 +126,6 @@
                     </ul>
                 </div>
                 <div class="orders-box">
-                    <div id="order-1" class="order-1 order">
-                        <div class="order-1-info info-contener">
-                            <p class="user-name">Dadze</p>
-                            <p class="user-phone">98 25 77 22</p>
-                            <p class="user-address">Lome</p>
-                            <p>payement : <span class="user-bank">t-money</span></p>
-                        </div>
-                        <div class="order-1-foods info-contener">
-                            <div class="order-1-food-1 order-item">
-                                    <div class="order-food-image">
-                                        <img src="images/foody-upload-api-foody-mobile-10-200317093749.jpg" alt="">
-                                    </div>
-                                    <div class="order-food-info">
-                                        <h1 class="order-food-name">hamburger</h1>
-                                        <p class="order-food-description">repellat praesentium dolore repudiandae, non</p>
-                                    </div>
-                                    <div class="quantite">
-                                        4
-                                    </div>
-                            </div>
-                            <div class="order-1-food-1 order-item">
-                                <div class="order-food-image">
-                                    <img src="images/foody-upload-api-foody-mobile-10-200317093749.jpg" alt="">
-                                </div>
-                                <div class="order-food-info">
-                                    <h1 class="order-food-name">hamburger</h1>
-                                    <p class="order-food-description">repellat praesentium dolore repudiandae, non</p>
-                                </div>
-                                <div class="quantite">
-                                    4
-                                </div>
-                        </div>
-                        </div>
-                        <div class="order-1-total info-contener">
-                            <p><span class="tolal">6600</span> Fcfa</p>
-                        </div>
-                        <div class="order-1-status info-contener">
-                            <button id="order-status" class="btn_confirm">Wait confirm</button>
-                        </div>
-                    </div>
-                    <div id="order-1" class="order-1 order">
-                        <div class="order-1-info info-contener">
-                            <p class="user-name">Dadze</p>
-                            <p class="user-phone">98 25 77 22</p>
-                            <p class="user-address">Lome</p>
-                            <p>payement : <span class="user-bank">t-money</span></p>
-                        </div>
-                        <div class="order-1-foods info-contener">
-                            <div class="order-1-food-1 order-item">
-                                    <div class="order-food-image">
-                                        <img src="images/foody-upload-api-foody-mobile-10-200317093749.jpg" alt="">
-                                    </div>
-                                    <div class="order-food-info">
-                                        <h1 class="order-food-name">hamburger</h1>
-                                        <p class="order-food-description">repellat praesentium dolore repudiandae, non</p>
-                                    </div>
-                                    <div class="quantite">
-                                        4
-                                    </div>
-                            </div>
-                            <div class="order-1-food-1 order-item">
-                                <div class="order-food-image">
-                                    <img src="images/foody-upload-api-foody-mobile-10-200317093749.jpg" alt="">
-                                </div>
-                                <div class="order-food-info">
-                                    <h1 class="order-food-name">hamburger</h1>
-                                    <p class="order-food-description">repellat praesentium dolore repudiandae, non</p>
-                                </div>
-                                <div class="quantite">
-                                    4
-                                </div>
-                        </div>
-                        </div>
-                        <div class="order-1-total info-contener">
-                            <p><span class="tolal">6600</span> Fcfa</p>
-                        </div>
-                        <div class="order-1-status info-contener">
-                            <button id="order-status" class="btn_confirm">Wait confirm</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -241,8 +142,9 @@
                                 <label for="name">Username :</label><br>
                                 <input type="text" name="name" id="name"><br>
                                 <label for="password">Password:</label><br>
-                                <input type="text" name="password" id="password"><br>
-                                <input type="submit" value="Login" id="connecter" class="valider">
+                                <input type="password" name="password" id="password"><br>
+                                <span class="status"></span>
+                                <input type="submit" value="Connecter" id="connecter" class="valider">
                             </form>
                         </div>
                         <form action="" id="fsingup" class="fsingup hidden">
@@ -252,7 +154,7 @@
                             <input type="password" name="user-password" id="user-password"><br>
                             <label for="verif-password">Confirm Password:</label><br>
                             <input type="password" name="verif-password" id="verif-password"><br>
-                            <input type="submit" value="Login" id="inscrire" class="valider">
+                            <input type="submit" value="S'inscrire" id="inscrire" class="valider">
                         </form>
                     </div>
                 </div>
