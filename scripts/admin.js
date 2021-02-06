@@ -1,5 +1,5 @@
-import {getParent, toogleBox, toogleModifForm} from './utilities.js'
-
+import {getParent, toogleBox, toogleModifForm, toogleMenues} from './utilities.js'
+toogleMenues ()
 const foods = JSON.parse(localStorage.getItem('foods'));
 let users;
     users= JSON.parse(localStorage.getItem('users'));
@@ -157,33 +157,38 @@ function manageFoods(...arg){
                 }else{
                     properties = [modifiedFood['item']['userLogin'].name, modifiedFood['item']['userLogin'].password,
                                   modifiedFood['item']['userLogin'].password, usersModifInputs,arg[1]]
-                }
-
-                
+                }         
                 initInput(properties)
             } else{
-                const foodBox = document.querySelector('.listfoods .t-body') 
-                const parent = getParent(this).firstElementChild.firstElementChild.id
-                const tr = getParent(this);
-                removeSelection(parent);
+                const foodBox = arg[1] == 'foods'? document.querySelector('.listfoods .t-body') :
+                                                   document.querySelector('.user-box'); 
+                const parent = arg[0] == 'foodmanhead' ? getParent(this).firstElementChild.firstElementChild.id:
+                                                         getParent(this).id;  
+                const tr = getParent(this);          
+                removeSelection(parent , arg[1]);
                 foodBox.removeChild(tr);
             }
         },false);
     }   
 }
 
-function removeSelection(id){
+function removeSelection(id, database){
     const modifItemPlace = null
     localStorage.setItem('modifItemPlace', JSON.stringify(modifItemPlace));
-    const foods = JSON.parse(localStorage.getItem('foods'))
-    foods.forEach((element, i)=>{
-        if(element.id === id){
-            foods.splice(foods.indexOf(foods[i]),1);  
+    const data = JSON.parse(localStorage.getItem(database));
+    data.forEach((element, i)=>{
+        if(element.id == id){
+            data.splice(i,1);  
         }
     });
-    foodsCount.innerHTML = foods.length
-    listFood(foods)
-    localStorage.setItem('foods', JSON.stringify(foods))
+    if(database == 'foods'){
+        foodsCount.innerHTML = foods.length
+        listFood(foods)
+    }
+    let updateDatabaseLength = JSON.parse(localStorage.getItem(`${database}Length`));
+          updateDatabaseLength --
+    localStorage.setItem(`${database}Length`, JSON.stringify(updateDatabaseLength));
+    localStorage.setItem(database, JSON.stringify(data));
 }
 
 

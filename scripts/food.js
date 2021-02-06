@@ -45,10 +45,12 @@ foods.forEach(item=>{
     count ++
 });
 
-{
+{   
+    const foodsLength = foods.length
     const verifstore = localStorage.getItem('foods');
     if(verifstore === null){
     localStorage.setItem('foods', JSON.stringify(foods));
+    localStorage.setItem('foodsLength', JSON.stringify(foodsLength))
 }
 }
 export {foods};

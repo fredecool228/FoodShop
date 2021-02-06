@@ -56,9 +56,7 @@ let selectedFood = []
 const itemCount = document.querySelector('.item-count')
 function add(id){
     const findSelection= selectedFood.filter(item => {
-        if(item.id ===id){
-            return item;
-        }
+            return item.id == id;    
     });
     if(findSelection.length !== 0){
         findSelection[0].quantiter++;

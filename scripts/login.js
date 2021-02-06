@@ -106,7 +106,8 @@ function singUp(){
     let userId;
     if(userInfo[2].status === true){
         const users = JSON.parse(localStorage.getItem('users'));
-        const id = users.length + 1;
+        const usersLength = JSON.parse(localStorage.getItem('usersLength'))
+        const id = usersLength + 1;
         users.push(new AddUser(userName, userPassword, id));
          userId = {
             id : users[id-1].id,
@@ -114,6 +115,7 @@ function singUp(){
             place : id-1
         };
         localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('usersLength', JSON.stringify(usersLength+1));
         userInfo[0].value = '';
         userInfo[1].value = '';
         userInfo[2].parent.value =''

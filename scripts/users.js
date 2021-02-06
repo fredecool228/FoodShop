@@ -7,8 +7,6 @@ function AddUser(name, password, id){
     this.userOrders = [];
 
     this.updateUserLogin = function (username, userpassword){
-        username ==''? username = name:'';
-        userpassword ==''?userpassword= password:'';
         this.userLogin.name = username;
         this.userLogin.password = userpassword;
     }
@@ -22,9 +20,11 @@ users.forEach(item=>{
     item['id'] = count;
     count ++
 });
-
+const usersLength = users.length
 const verifstore = localStorage.getItem('users');
+
 if(verifstore === null){
+    localStorage.setItem('usersLength', JSON.stringify(usersLength));
     localStorage.setItem('users', JSON.stringify(users));
 }
 export {AddUser};
