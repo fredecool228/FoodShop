@@ -13,21 +13,21 @@
                 <h2>Foody.com</h2>
             </div>
             <div class="mbar-add">
-                    <button id="newfood"class="btn btn-add">Add Food</button>  
+                    <a href="#foodman" class="tab"><button id="newfood"class="btn btn-add">Add Food</button></a>  
             </div>
             <div class="mbar-nav">
                 <nav>
                     <ul>
-                        <li><a href="#dashboard">Dashboarb</a></li>
-                        <li><a href="#foodman">Food manage</a></li>
-                        <li><a href="#Orderman">Order manage</a></li>
-                        <li><a href="#accountman">Account manage</a></li>
+                        <li><a href="#dashboard" class="tab init">Dashboarb</a></li>
+                        <li><a href="#foodman" class="tab">Food manage</a></li>
+                        <li><a href="#Orderman" class="tab">Order manage</a></li>
+                        <li><a href="#accountman" class="tab">Account manage</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
         <div class="maria">
-            <div id="dashboard"class="dasboard-box manage">
+            <div id="dashboard"class="dasboard-box manage visibled">
                 <h1>Dashboarb</h1>
                 <div class="dashead">
                     <div class="itemcount">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div id="foodman"class="foodman manage">
+            <div id="foodman"class="foodman manage hidden">
                 <h1>Food manage</h1>
                 <div class="foodmanhead  header box hidden">
                     <div id="insert" class="insertfood  form visibled">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div id="Orderman"class="Orderman manage">
+            <div id="Orderman"class="Orderman manage hidden">
                 <h1>Orders manage</h1>
                 <div class="manage-order orders-contener">
                     <div class="orders-header">
@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div id="accountman"class="accountman manage">
+            <div id="accountman"class="accountman manage hidden">
                 <h1>Account manager</h1>
                 <button id="create-account" class="btn-form">Add account</button>
                 <div class="header box account-man-head hidden">
@@ -185,7 +185,7 @@
                                 <input type="password" name="update-repassword" id="update-repassword">
                             </p>
                         </div>
-                        <button id="update-account" class="btn-form">udapte</button>
+                        <button id="account-update" class="btn-form">udapte</button>
                         <button class="btn-form btn-close close">Close</button>
                     </div>
                 </div>
@@ -217,6 +217,14 @@
             </div>
 
         </div>
+    </div>
+    <div class="confirm-action box">
+        <div class="action-over">
+
+        </div>
+
+        <div class="action-message"></div>
+        <button id ="btn-annuler" class="btn-form btn-annuler-ajout">Annuler</button><button id="btn-valider" class="btn-form btn-valider-add">Valider</button>
     </div>
     <script src="scripts/admin.js" type="module"></script>
 </body>
