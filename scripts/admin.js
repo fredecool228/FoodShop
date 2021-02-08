@@ -205,8 +205,8 @@ function findFood(id , table){
     }
     return findingFood;
 }
-const foodsModifInputs = [document.querySelector('#m-food-name'),document.querySelector('#m-food-note'),
-                           document.querySelector('#m-food-price'),document.querySelector('#m-food-image')]
+const foodsModifInputs = [document.querySelector('#m-food-name'), document.querySelector('#m-food-note'),
+                            document.querySelector('#m-food-price'), document.querySelector('#m-food-image')]
 const usersModifInputs = [document.querySelector('#update-username'),document.querySelector('#update-password'),
                           document.querySelector('#update-repassword')]
 function initInput(args){
@@ -215,27 +215,66 @@ function initInput(args){
     args[3][2].value = args[2]!= "" ? args[2]: args[3][2].value;
 }
 
-function update(itemArray, itemPlace ,type = 'none'){
-    const table = JSON.parse(localStorage.getItem(itemArray));
-    if(itemArray == 'foods'){ 
-        const updateInputs =  foodsModifInputs;  
-        table[itemPlace].name = updateInputs[0].value;
-        table[itemPlace].note = updateInputs[1].value;
-        table[itemPlace].price = updateInputs[2].value;
-        table[itemPlace].image = updateInputs[3].value != ''?
-        `images/${updateInputs[3].value.split('\\')[2]}`: table[itemPlace].image ;
-        updateInputs[0].value = "";
-        updateInputs[1].value= "";
-        updateInputs[2].value = "";
-        updateInputs[3].value = "";
-        
-        localStorage.setItem(itemArray, JSON.stringify(table))
-        viewFoods() 
-        listFood(table); 
+
+function update(itemArray, itemPlace, inputs){
+    let verif = checkUdapte(itemArray,inputs);
+    if(verif){
+        const database = JSON.parse(localStorage.getItem(itemArray));
+        const updateInputs =  inputs; 
+        let count = 0; 
+        const values =[updateInputs[0].value, updateInputs[2].value,
+                       updateInputs[1].value];
+        const hasImage = updateInputs[3] ? updateInputs[3].value : null;
+        const modiefiedItem = database[itemPlace]['userLogin'] ? database[itemPlace]['userLogin']:
+                                                                 database[itemPlace];
+        for(let id in modiefiedItem){
+            if(id == 'id'){ 
+            }else{
+                if( modiefiedItem.hasOwnProperty('image') && id =='image'){
+                    modiefiedItem[id] = hasImage != ''?
+                    `images/${hasImage.split('\\')[2]}`: modiefiedItem[id] ;
+                } else{
+                    modiefiedItem[id] = values[count];    
+                }
+                count ++;
+            }
+        }
+
+        for(let item of updateInputs){
+            item.value = "";
+        }
+
+        localStorage.setItem(itemArray, JSON.stringify(database))
+        if(itemArray == 'foods'){
+            viewFoods() 
+            listFood(database); 
+        } else{
+            viewUsers()
+        }
         
         itemPlace = null
-        localStorage.setItem('modifItemPlace', JSON.stringify(itemPlace));
-    }      
+        localStorage.setItem('modifItemPlace', JSON.stringify(itemPlace)); 
+
+        return true;
+    } else{ return false}   
+}
+
+function checkUdapte(itemArray, inputs){
+    const values =[inputs[0].value, inputs[2].value,
+    inputs[1].value];
+        let verif;
+        for(let value of values){
+            value == '' ? verif = true: '';
+        }
+        if(verif){
+            alert('Remplissez toute les champs'); 
+            return false;
+        } 
+        if(itemArray ==  'users' & values[1] != values[2])  {
+            alert('Mots de passe non identique');
+            return false;
+        }
+    return true;
 }
 
 function addNew(itemArray, type = 'none'){
@@ -404,13 +443,24 @@ addFoodButton.addEventListener('click',function(){
 const updateFoodButton = document.querySelector('#updatefood');
 updateFoodButton.addEventListener('click',function(){
     const modifItemPlace = JSON.parse(localStorage.getItem('modifItemPlace'));
+    let hasDone;
     if(modifItemPlace != undefined || modifItemPlace != null){
-        update('foods', modifItemPlace);
+        hasDone = update('foods', modifItemPlace, foodsModifInputs);
     }
-    toogleBox('foodmanhead','hidden');
+    hasDone ? toogleBox('foodmanhead','hidden') : '';
 },false);
 
 const addAccountbtn = document.querySelector('#create-account');
 addAccountbtn.addEventListener('click',function(){
     toogleBox('account-man-head');
+},false)
+
+const updateAccountButton = document.querySelector('#account-update');
+updateAccountButton.addEventListener('click',function(e){
+    const modifItemPlace = JSON.parse(localStorage.getItem('modifItemPlace'));
+    let hasDone;
+    if(modifItemPlace != undefined || modifItemPlace != null){
+       hasDone = update('users', modifItemPlace, usersModifInputs);
+    }
+    hasDone ? toogleBox('account-man-head','hidden') : '';
 },false)
