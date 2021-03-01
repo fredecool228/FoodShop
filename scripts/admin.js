@@ -1,3 +1,4 @@
+import { newUser } from './login.js';
 import {getParent, toogleBox, toogleModifForm, toogleMenues} from './utilities.js'
 toogleMenues ()
 const foods = JSON.parse(localStorage.getItem('foods'));
@@ -217,7 +218,7 @@ function initInput(args){
 
 
 function update(itemArray, itemPlace, inputs){
-    let verif = checkUdapte(itemArray,inputs);
+    let verif = checkAction(itemArray,inputs);
     if(verif){
         const database = JSON.parse(localStorage.getItem(itemArray));
         const updateInputs =  inputs; 
@@ -228,8 +229,7 @@ function update(itemArray, itemPlace, inputs){
         const modiefiedItem = database[itemPlace]['userLogin'] ? database[itemPlace]['userLogin']:
                                                                  database[itemPlace];
         for(let id in modiefiedItem){
-            if(id == 'id'){ 
-            }else{
+            if(id !== 'id'){ 
                 if( modiefiedItem.hasOwnProperty('image') && id =='image'){
                     modiefiedItem[id] = hasImage != ''?
                     `images/${hasImage.split('\\')[2]}`: modiefiedItem[id] ;
@@ -244,24 +244,25 @@ function update(itemArray, itemPlace, inputs){
             item.value = "";
         }
 
-        localStorage.setItem(itemArray, JSON.stringify(database))
+        localStorage.setItem(itemArray, JSON.stringify(database));
         if(itemArray == 'foods'){
-            viewFoods() 
+            viewFoods();
             listFood(database); 
         } else{
-            viewUsers()
+            viewUsers();
         }
         
         itemPlace = null
         localStorage.setItem('modifItemPlace', JSON.stringify(itemPlace)); 
 
         return true;
-    } else{ return false}   
+    } else{ return false }   
 }
 
-function checkUdapte(itemArray, inputs){
+function checkAction(itemArray, inputs, action = 'update'){
     const values =[inputs[0].value, inputs[2].value,
-    inputs[1].value];
+                    inputs[1].value];
+    const image = inputs[3] ? inputs[3].value : null;
         let verif;
         for(let value of values){
             value == '' ? verif = true: '';
@@ -270,37 +271,102 @@ function checkUdapte(itemArray, inputs){
             alert('Remplissez toute les champs'); 
             return false;
         } 
+        if(action == 'newFood'&& image == ''){
+            alert('Choisisser une image pour votre article');
+            return false;
+        }
         if(itemArray ==  'users' & values[1] != values[2])  {
             alert('Mots de passe non identique');
             return false;
         }
     return true;
 }
+const addFoodInput = [document.querySelector('#foodname'), document.querySelector('#foodnote'),
+                        document.querySelector('#foodprice'), document.querySelector('#foodimage')];
+const addUsersInputs = [document.querySelector('#username'),document.querySelector('#user-password'),
+                        document.querySelector('#repassword')]                        
 
-function addNew(itemArray, type = 'none'){
-    const table = JSON.parse(localStorage.getItem(itemArray));
-    if(type =='food'){
-        const insertFoodName = document.querySelector('#foodname');
-        const insertFoodNote = document.querySelector('#foodnote');
-        const insertFoodPrice = document.querySelector('#foodprice');
-        const insertFoodImage = document.querySelector('#foodimage');
+function addNew(data, inputs){  
+        const table = JSON.parse(localStorage.getItem(data));
+        const addInputs = inputs
         const id = (table.length + 1)+'-food';
-        const newFood = new NewFood(id, insertFoodName.value, insertFoodPrice.value,
-                                    insertFoodNote.value, insertFoodImage.value);
+        const newFood = new NewFood(id, addInputs[0].value, addInputs[2].value,
+            addInputs[1].value, addInputs[3].value);
         table.push(newFood);
-              insertFoodName.value = '';
-              insertFoodNote.value = '';
-              insertFoodPrice.value = '';
-              insertFoodImage.value = '';
+
+        for(let item of addInputs){
+            item.value = "";
+        }
         foodsCount.innerHTML = table.length;
 
-        localStorage.setItem(itemArray, JSON.stringify(table));
+        localStorage.setItem(data, JSON.stringify(table));
 
         listFood(table)
         viewFoods()
+        return true;
+}
+
+function addNewUser(data,inputs){
+    let verif = checkAction(data, inputs);
+    if(verif){
+        newUser(inputs[0].value, inputs[0].value,false);
+        viewUsers();
+        return true;
+    } else{ return false }
+}
+
+function ConfirmActions(){
+    const preview = '';
+    const message = '';
+    this.confBox = document.querySelector('.action-over');
+    this.messageBox = document.querySelector('.action-message');
+    this.confBtn = document.querySelectorAll('.btn-confirm')
+}
+
+ConfirmActions.prototype.add = function (type,inputs){
+    let verif = checkAction(type, inputs, 'newFood');
+    if(verif){
+        if(type === 'foods'){
+            toogleBox('confirm-action' ,'visible');
+            this.message = 'Voulez vous ajouter cette article a vos articles ?';
+            this.preview = `<div class="food">
+                                <div class="food-image">
+                                    <img src="images/${inputs[3].value.split('\\')[2]}" alt="">
+                                </div>
+                                <div class="food-info">
+                                    <h1 class="food-name">${inputs[0].value}</h1>
+                                    <p class="food-description">${inputs[1].value}</p>
+                                    <h2>Price</h2>
+                                    <p class="food-price">${inputs[2].value} Fcfa</p>
+                                    <div class="food-level-star">
+                                    </div>
+                                </div>
+                            </div>`;    
+        }else {
+            this.message = `Voulez vous Ajouter l'utilisateur ${inputs[0].value} ?`;  
+        }
+        console.log(this.preview)
+        this.confBox.innerHTML = this.preview;
+        this. messageBox.innerHTML = this.message;
+    
+        this.confBtn.forEach(button =>{
+            button.addEventListener('click',function (e){
+                if(this.id =='btn-valider'){
+                    addNew(type,inputs);
+                    toogleBox('foodmanhead','hidden');
+                    toogleBox('confirm-action' ,'hidden');
+                    this.confBox.innerHTML = '';
+                    this.messageBox.innerHTML = '';
+                } else {
+                    //Do somethings
+                }
+            },false)
+        })
     }
 
 }
+
+
 
 function manageOrdes(){
     const users = JSON.parse(localStorage.getItem('users'));
@@ -359,7 +425,7 @@ function NewFood(...array){
     this.name = array[1];
     this.price = array[2];
     this.note = array[3];
-    this.image = array[4];
+    this.image = `images/${array[4].split('\\')[2]}`;
     this.id = array[0];
 }
 
@@ -437,7 +503,7 @@ const closeBtn = document.querySelectorAll('.btn-close');
 
 const addFoodButton = document.querySelector('.add')
 addFoodButton.addEventListener('click',function(){
-    addNew('foods', 'food')
+    new ConfirmActions().add('foods', addFoodInput);
 },false);
 
 const updateFoodButton = document.querySelector('#updatefood');
@@ -462,5 +528,16 @@ updateAccountButton.addEventListener('click',function(e){
     if(modifItemPlace != undefined || modifItemPlace != null){
        hasDone = update('users', modifItemPlace, usersModifInputs);
     }
+    hasDone ? toogleBox('account-man-head','hidden') : '';
+},false)
+
+const addFood = document.querySelector('#newfood');
+addFood.addEventListener('click',function(){
+    toogleBox('foodmanhead');
+},false);
+
+const addAccount = document.querySelector('#add-account');
+addAccount.addEventListener('click',function(){
+    let hasDone = addNewUser('users',addUsersInputs);
     hasDone ? toogleBox('account-man-head','hidden') : '';
 },false)

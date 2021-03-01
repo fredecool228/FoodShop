@@ -3,7 +3,7 @@ import {AddUser} from './users.js';
 function checkSingUp(){
     const checkinfo = {};
     checkinfo['name'] = function (){
-        const pName = document.querySelector('#user-name');
+        const pName = document.querySelector('#username');
         const pNameValue = pName.value;
         if(pNameValue != ''){
         pName.className = 'correct';
@@ -25,7 +25,7 @@ function checkSingUp(){
 
     checkinfo['verifPass'] = function (){
         const password = document.querySelector('#user-password');
-        const pName = document.querySelector('#verif-password');
+        const pName = document.querySelector('#repassword');
         const pNameValue = pName.value;
         if(pNameValue == password.value){
             pName.className = 'correct';
@@ -99,33 +99,42 @@ function login(){
         return null
     }
 }
-function singUp(){
+function singUp(displays = true){
     const userInfo = checkSingUp();
     const userName =  userInfo[0].value ;
     const userPassword = userInfo[1].value;
     let userId;
     if(userInfo[2].status === true){
-        const users = JSON.parse(localStorage.getItem('users'));
-        const usersLength = JSON.parse(localStorage.getItem('usersLength'))
-        const id = usersLength + 1;
-        users.push(new AddUser(userName, userPassword, id));
-         userId = {
-            id : users[id-1].id,
-            name : users[id-1].userLogin.name,
-            place : id-1
-        };
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('usersLength', JSON.stringify(usersLength+1));
-        userInfo[0].value = '';
-        userInfo[1].value = '';
-        userInfo[2].parent.value =''
-        userInfo[0].className = '';
-        userInfo[1].className = '';
-        userInfo[2].parent.className ='';
-        displayAll(userId.name);
+        userId = newUser(userName, userPassword)
+        for(const item of userInfo){
+            item.value = '';
+            item.className = '';
+            if(item['parent']){
+                item['parent'].value = '';
+                item['parent'].className = '';
+                break;
+            }
+        }
+        if(displays){
+            displayAll(userId.name);
         return userId;
-    }
-    
+        }       
+    }   
+}
+
+function newUser(name , password , retour = true){
+    const users = JSON.parse(localStorage.getItem('users'));
+    const usersLength = JSON.parse(localStorage.getItem('usersLength'))
+    const id = usersLength + 1;
+    users.push(new AddUser(name, password, id));
+    const userId = {
+        id : users[id-1].id,
+        name : users[id-1].userLogin.name,
+        place : id-1
+    };
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('usersLength', JSON.stringify(usersLength+1));
+    if(retour){return userId}
 }
 
 function displayAll(user){
@@ -163,4 +172,4 @@ function logOut(){
 
 
 
-export {login, singUp, logOut, displayAll}
+export {login, singUp, logOut, displayAll, newUser}
