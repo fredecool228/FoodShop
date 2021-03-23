@@ -307,7 +307,6 @@ setOrderButton.addEventListener('click',function(e){
 },false);
 
 // Gestion de la connection
-// let currenTUserConnected = null;
 const connect = document.querySelector('#connecter');
 connect.addEventListener('click',function(e){
     e.preventDefault()
