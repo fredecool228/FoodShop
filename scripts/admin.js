@@ -284,14 +284,13 @@ function checkAction(itemArray, inputs, action = 'update'){
 const addFoodInput = [document.querySelector('#foodname'), document.querySelector('#foodnote'),
                         document.querySelector('#foodprice'), document.querySelector('#foodimage')];
 const addUsersInputs = [document.querySelector('#username'),document.querySelector('#user-password'),
-                        document.querySelector('#repassword')]                        
-
-function addNew(data, inputs){  
+                        document.querySelector('#repassword')];                        
+function addNewFood(data, inputs){  
         const table = JSON.parse(localStorage.getItem(data));
         const addInputs = inputs
         const id = (table.length + 1)+'-food';
         const newFood = new NewFood(id, addInputs[0].value, addInputs[2].value,
-            addInputs[1].value, addInputs[3].value);
+            addInputs[1].value,  addInputs[3].value);
         table.push(newFood);
 
         for(let item of addInputs){
@@ -312,61 +311,123 @@ function addNewUser(data,inputs){
         newUser(inputs[0].value, inputs[0].value,false);
         viewUsers();
         return true;
-    } else{ return false }
+    } else{ 
+        return false 
+    }
 }
 
-function ConfirmActions(){
-    const preview = '';
-    const message = '';
-    this.confBox = document.querySelector('.action-over');
-    this.messageBox = document.querySelector('.action-message');
-    this.confBtn = document.querySelectorAll('.btn-confirm')
-}
+function addNews(type, inputs){
+    const verif = checkAction(type, inputs);
 
-ConfirmActions.prototype.add = function (type,inputs){
-    let verif = checkAction(type, inputs, 'newFood');
     if(verif){
-        if(type === 'foods'){
-            toogleBox('confirm-action' ,'visible');
-            this.message = 'Voulez vous ajouter cette article a vos articles ?';
-            this.preview = `<div class="food">
-                                <div class="food-image">
-                                    <img src="images/${inputs[3].value.split('\\')[2]}" alt="">
+        const options = ActionType('new', inputs, 'foods')
+        Confirm.open(options);
+    }
+}
+const Confirm = {
+    open(options){
+        options = Object.assign({}, {
+            content : '',
+            message : '',
+            okTest : '',
+            cancelTest : '',
+            onOk : function () {},
+            onCancel : function () {}
+        },options);
+        console.log(options)
+        const render = `<div class="confirm">
+                            <div class="confirm_window box">
+                                <div class="confirm_header">
+                                    <button class="confirm_close">&times;</button>
                                 </div>
-                                <div class="food-info">
-                                    <h1 class="food-name">${inputs[0].value}</h1>
-                                    <p class="food-description">${inputs[1].value}</p>
-                                    <h2>Price</h2>
-                                    <p class="food-price">${inputs[2].value} Fcfa</p>
-                                    <div class="food-level-star">
-                                    </div>
+                                <div class="confirm_content">
+                                    ${options.content}
                                 </div>
-                            </div>`;    
-        }else {
-            this.message = `Voulez vous Ajouter l'utilisateur ${inputs[0].value} ?`;  
-        }
-        console.log(this.preview)
-        this.confBox.innerHTML = this.preview;
-        this. messageBox.innerHTML = this.message;
     
-        this.confBtn.forEach(button =>{
-            button.addEventListener('click',function (e){
-                if(this.id =='btn-valider'){
-                    addNew(type,inputs);
-                    toogleBox('foodmanhead','hidden');
-                    toogleBox('confirm-action' ,'hidden');
-                    this.confBox.innerHTML = '';
-                    this.messageBox.innerHTML = '';
-                } else {
-                    //Do somethings
-                }
-            },false)
+                                <div class="confirm_message">
+                                    ${options.message}
+                                </div>
+                                <div class="confirm_button">
+                                    <button id ="confirm_btn-annuler" class="btn-form btn-confirm ">${options.cancelTest}</button>
+                                    <button id="confirm_btn-valider" class="btn-form btn-confirm">${options.okTest}</button>
+                                </div>
+                            </div>
+                        </div>`
+
+        const template = document.createElement('template');
+        template.innerHTML = render
+
+        const confirmBox = template.content.querySelector('.confirm');
+        const btnClose   = template.content.querySelector('.confirm_close');
+        const btnCancel  = template.content.querySelector('#confirm_btn-annuler');
+        const btnValider  = template.content.querySelector('#confirm_btn-valider');
+
+        document.body.appendChild(template.content);
+
+        confirmBox.addEventListener('click', e =>{
+            if(e.target == confirmBox){
+                options.onCancel();
+                this.close(confirmBox);
+            }
+        },false);
+
+        btnValider.addEventListener('click', ()=>{
+            options.onOk();
+            this.close(confirmBox);
+        },false);
+
+        [btnCancel, btnClose].forEach(el =>{
+            el.addEventListener('click',() =>{
+                options.onCancel();
+                this.close(confirmBox);
+            },false);
+        })
+    },
+
+    close(confirEl){
+        confirEl.classList.add('confirm--close');
+        confirEl.addEventListener('animationend', ()=>{
+            document.body.removeChild(confirEl);
         })
     }
-
 }
+function ActionType(type, inputs, categories){
+    const addnew = 'new', update = 'update', remove = 'delete';
+    if(type ==  addnew){
+        let messages = {
+            message : categories == 'foods'?'Voulez vous ajouter cette article a vos articles ?' : `Voulez vous Ajouter l'utilisateur ${inputs[0].value} ?`,
+            content: categories == 'foods'? `<div class="food">
+                                                 <div class="food-image">
+                                                        <img src="images/${inputs[3].value.split('\\')[2]}" alt="">
+                                                    </div>
+                                                    <div class="food-info">
+                                                        <h1 class="food-name">${inputs[0].value}</h1>
+                                                        <p class="food-description">${inputs[1].value}</p>
+                                                        <h2>Price</h2>
+                                                        <p class="food-price">${inputs[2].value} Fcfa</p>
+                                                    <div class="food-level-star">
+                                                    </div>
+                                                 </div>
+                                            </div>`: '' ,
+            okTest : 'Valider',
+            cancelTest : 'Annuler',
+            onOk : function (){
+                categories == 'foods'? addNewFood(type, inputs) : addNewUser(type, inputs);
+            },
+            onCancel : function (){}
+        }
 
+        return messages;
+    }
 
+    if(type == update){
+
+    }
+
+    if(type == remove){
+        
+    }
+}
 
 function manageOrdes(){
     const users = JSON.parse(localStorage.getItem('users'));
@@ -503,7 +564,7 @@ const closeBtn = document.querySelectorAll('.btn-close');
 
 const addFoodButton = document.querySelector('.add')
 addFoodButton.addEventListener('click',function(){
-    new ConfirmActions().add('foods', addFoodInput);
+    addNews('foods', addFoodInput);
 },false);
 
 const updateFoodButton = document.querySelector('#updatefood');
@@ -538,6 +599,7 @@ addFood.addEventListener('click',function(){
 
 const addAccount = document.querySelector('#add-account');
 addAccount.addEventListener('click',function(){
-    let hasDone = addNewUser('users',addUsersInputs);
-    hasDone ? toogleBox('account-man-head','hidden') : '';
-},false)
+        addNews('users', addUsersInputs);
+    // let hasDone = addNewUser('users',addUsersInputs);
+    // hasDone ? toogleBox('account-man-head','hidden') : '';
+},false);

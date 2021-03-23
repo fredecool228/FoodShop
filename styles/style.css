@@ -941,6 +941,7 @@ tbody td{
     border-radius: 3px;
     padding: 15px 0;
     margin-right: 15px;
+    margin-bottom: 20px;
 }
 
 .account div:nth-child(3n){
@@ -955,11 +956,33 @@ tbody td{
     font-size: 19px;
 }
 
-.confirm-action {
+.confirm{
+    position : fixed;
+    top: 0px;
+    left : 0px;
+    width : 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    padding : 10px;
+    box-sizing: border-box;
+
+    opacity: 0;
+    animation : confirm--open 0.25s forwards;
+
+    display : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm--close{
+    animation: confirm--close 0.3s forwards;
+}
+
+.confirm_window {
     position: absolute;
     height: auto;
     width: auto;
-    max-width: 500px;
+    max-width: 600px;
     padding: 15px;
     background-color: #fff;
     text-align: center;
@@ -967,24 +990,62 @@ tbody td{
     top: 80px;
     left: 550px;
     word-wrap: break-word;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: scale(0.75);
+    animation: confirm--window--open 0.3s forwards;
 }
 
-.confirm-action > div{
+.confirm_close{
+    background: none;
+    border: none;
+    outline: none;
+    transform: scale(2.3);
+    position: absolute;
+    right: 8px;
+    top: 4px;
+    transition: color 0.2s;
+}
+
+.confirm_close:hover{
+    color :rgb(235, 58, 58);
+    cursor : pointer;
+    transform: scale(2.5);
+}
+.confirm_window > div{
     margin-bottom: 10px;
 }
 
-.confirm-action > div:first-child div{
+.confirm_window > div:first-child div{
     margin: auto;
     margin-bottom: 20px;
 }
 
-.confirm-action .food-image,
-.confirm-action .food-image img
+.confirm__window  .food-image,
+.confirm__window  .food-image img
 {
     width: 250px;
     height: 150px;
 }
 
+.confirm_button button{
+    transition: 0.2s;
+    
+}
+
+#confirm_btn-annuler:hover{
+    background-color:rgb(235, 58, 58);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    transform: scale(1.01);
+}
+
+#confirm_btn-valider:hover{
+    background-color:rgb(100, 236, 100);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    transform: scale(1.01);;
+}
 
 
 
@@ -1061,3 +1122,19 @@ tbody td{
     opacity: 1;
 }
 
+@keyframes confirm--open{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+
+@keyframes confirm--close{
+    from{opacity: 1;}
+    to{opacity: 0;}
+}
+
+@keyframes confirm--window--open{
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
